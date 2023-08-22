@@ -1,9 +1,11 @@
 package entities
 
+import "github.com/google/uuid"
+
 type (
 	Image struct {
-		ID       int64  `gorm:"primary_key;auto_increment" json:"id"`
-		Filename string `json:"filename"`
-		Path     string `json:"path"`
+		ID       uuid.UUID `gorm:"type:uuid;primary_key" json:"id"`
+		Filename string    `json:"filename"`
+		Path     string    `json:"path"`
 	}
 )

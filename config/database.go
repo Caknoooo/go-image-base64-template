@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"golang-base64-file-encryption-template/entities"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -30,8 +31,12 @@ func SetupDatabaseConnection() *gorm.DB {
 		PreferSimpleProtocol: true,
 	}), &gorm.Config{})
 
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
+		panic(err)
+	}
+
+	if err := db.AutoMigrate(entities.Image{}); err != nil {
 		panic(err)
 	}
 
@@ -39,7 +44,7 @@ func SetupDatabaseConnection() *gorm.DB {
 	return db
 }
 
-func ClosDatabaseConnection(db *gorm.DB){
+func ClosDatabaseConnection(db *gorm.DB) {
 	dbSQL, err := db.DB()
 	if err != nil {
 		fmt.Println(err)
