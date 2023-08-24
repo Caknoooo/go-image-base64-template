@@ -13,21 +13,11 @@ type (
 		UploadImage(ctx *gin.Context)
 		GetImage(ctx *gin.Context)
 	}
-
-	imageController struct {
-		imageService service.ImageService
-	}
 )
 
 const PATH = "storage/"
 
-func NewImageController(is service.ImageService) ImageController {
-	return &imageController{
-		imageService: is,
-	}
-}
-
-func (ic *imageController) UploadImage(ctx *gin.Context) {
+func UploadImage(ctx *gin.Context) {
 	file, err := ctx.FormFile("image")
 	if err != nil {
 		ctx.JSON(400, gin.H{
@@ -40,7 +30,7 @@ func (ic *imageController) UploadImage(ctx *gin.Context) {
 		Image: file,
 	}
 
-	res, err := ic.imageService.UploadImage(ctx, req)
+	res, err := service.UploadImage(ctx, req)
 	if err != nil {
 		ctx.JSON(400, gin.H{
 			"message": err.Error(),
@@ -54,7 +44,7 @@ func (ic *imageController) UploadImage(ctx *gin.Context) {
 	})
 }
 
-func (ic *imageController) GetImage(ctx *gin.Context) {
+func GetImage(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	imagePath := PATH + id

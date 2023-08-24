@@ -17,7 +17,7 @@ func EncodeBase64(file *multipart.FileHeader) (string, error) {
 	}
 
 	defer fileData.Close()
-
+ 
 	bytes, err := io.ReadAll(fileData)
 	if err != nil {
 		return "", err
